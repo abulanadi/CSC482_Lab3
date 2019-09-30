@@ -10,7 +10,7 @@ namespace Lab3
 	{
 		static void Main(string[] args)
 		{
-			
+			ThreeSumFast.RunFullThreeSum("FastTest1.txt");
 		}
 	}
 }
