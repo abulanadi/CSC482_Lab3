@@ -13,11 +13,13 @@ namespace Lab3
 		static int MAXVALUE = 50000;
 		static int MINVALUE = -50000;
 		static int MININPUT = 1;
-		static int MAXINPUT = Convert.ToInt32(Math.Pow(2, 8));
-		static int numberOfTrials = 10000;
+		static int MAXINPUT = Convert.ToInt32(Math.Pow(2, 15));
+		static int numberOfTrials = 5;
 
 		static string resultsFolderPath = "C:\\Users\\Adria\\School Stuff\\CSC482\\Lab3";
 
+		//The books faster approach... sort the list first, then using only two loops
+		//we can add them and binary search for the negative value of their sum in the list
 		public static int countFast(long[] a)
 		{
 			long[] testList = MergeSort(a);
@@ -27,6 +29,8 @@ namespace Lab3
 			{
 				for (int j = i + 1; j < N; j++)
 				{
+					//to avoid finding duplicates further back in the list, we check to 
+					//see if the negative (if found) is in a higher index than the current j
 					if((BinarySearch(testList, -(testList[i]+testList[j])) > j))
 					{
 						cnt++;
@@ -66,29 +70,38 @@ namespace Lab3
 		{
 			Stopwatch stopwatch = new Stopwatch();
 
+			double previousTime = 0;
+			double doubleRatio = 0;
+			Console.WriteLine("Input Size\tAvg Time (ns)\tDoubling Ratio");
 
-			Console.WriteLine("Input Size\t\tAvg Time (ns)");
-
-			for (int inputSize = MININPUT; inputSize <= MAXINPUT; inputSize *= 2)
+			for (int inputSize = MININPUT; inputSize <= MAXINPUT; inputSize += inputSize)
 			{
 				double nanoSecs = 0;
 
-				System.GC.Collect();
+				//System.GC.Collect();
 
 				for (long trial = 0; trial < numberOfTrials; trial++)
 				{
 					long[] testList = CreateRandomListOfInts(inputSize);
 					stopwatch.Restart();
 					countFast(testList);
+					stopwatch.Stop();
 					nanoSecs += stopwatch.Elapsed.TotalMilliseconds * 1000000;
 
 				}
 				double averageTrialTime = nanoSecs / numberOfTrials;
-				Console.WriteLine("{0,-20} {1,10:N2}", inputSize, averageTrialTime);
+
+				if (previousTime > 0)
+				{
+					doubleRatio = averageTrialTime / previousTime;
+				}
+				previousTime = averageTrialTime;
+
+				Console.WriteLine("{0,-10} {1,16} {2,10:N2}", inputSize, averageTrialTime, doubleRatio);
 
 				using (StreamWriter outputFile = new StreamWriter(Path.Combine(resultsFolderPath, resultFile), true))
 				{
-					outputFile.WriteLine("{0,-20}  {1,10:N2}", inputSize, averageTrialTime);
+					outputFile.WriteLine("{0,-10} {1,16} {2,10:N2}", inputSize, averageTrialTime, doubleRatio);
 				}
 			}
 		}

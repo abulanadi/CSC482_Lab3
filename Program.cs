@@ -10,6 +10,11 @@ namespace Lab3
 	{
 		static void Main(string[] args)
 		{
+			//ThreeSumBruteForce.RunFullThreeSum("Test.txt");
+			//ThreeSumFast.RunFullThreeSum("TestFast.txt");
+			//ThreeSumFastest.RunFullThreeSum("TestFastes.txt");
+			///ThreeSumFastest.RunFullThreeSum("TestFastes.txt");
+			ThreeSumFastest.verifyThreesumFastest();
 		}
 	}
 }
