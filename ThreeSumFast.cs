@@ -13,8 +13,8 @@ namespace Lab3
 		static int MAXVALUE = 50000;
 		static int MINVALUE = -50000;
 		static int MININPUT = 1;
-		static int MAXINPUT = Convert.ToInt32(Math.Pow(2, 15));
-		static int numberOfTrials = 5;
+		static int MAXINPUT = Convert.ToInt32(Math.Pow(2, 12));
+		static int numberOfTrials = 10;
 
 		static string resultsFolderPath = "C:\\Users\\Adria\\School Stuff\\CSC482\\Lab3";
 
